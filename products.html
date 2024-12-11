@@ -9,22 +9,24 @@
 <body>
     <!-- الهيدر -->
     <header>
-        <div class="logo">شركة الأجهزة الكهربائية</div>
-        <nav>
-            <ul>
-                <li><a href="index.html">الرئيسية</a></li>
-                <li><a href="products.html" class="active">المنتجات</a></li>
-                <li><a href="about.html">عن الشركة</a></li>
-                <li><a href="contact.html">تواصل معنا</a></li>
-            </ul>
-        </nav>
+        <div class="header-container">
+            <img src="images/logo.png" alt="شعار الشركة" class="logo">
+            <nav>
+                <ul>
+                    <li><a href="index.html">الرئيسية</a></li>
+                    <li><a href="products.html" class="active">المنتجات</a></li>
+                    <li><a href="about.html">عن الشركة</a></li>
+                    <li><a href="contact.html">تواصل معنا</a></li>
+                </ul>
+            </nav>
+        </div>
     </header>
 
     <!-- قسم المنتجات -->
     <main>
         <section class="products">
             <h1>منتجاتنا</h1>
-            <p>اكتشف أحدث الأجهزة الكهربائية بأسعار تنافسية وجودة عالية.</p>
+            <p>اختر منتجاتك المفضلة واستمتع بخيارات الدفع المميزة.</p>
 
             <!-- خيارات العملة -->
             <div class="currency-selector">
@@ -32,36 +34,43 @@
                 <select id="currency" onchange="updatePrices()">
                     <option value="ils">شيكل</option>
                     <option value="usd">دولار</option>
+                    <option value="usdt">USDT</option>
                 </select>
             </div>
 
             <!-- قائمة المنتجات -->
             <div class="product-grid">
                 <!-- المنتج 1 -->
-                <div class="product" data-price-ils="3500" data-price-usd="950">
+                <div class="product" data-price-ils="3500" data-price-usd="950" data-price-usdt="950">
                     <img src="images/fridge.jpg" alt="ثلاجة">
                     <h2>ثلاجة</h2>
                     <p>أفضل الثلاجات للحفاظ على طعامك طازجاً.</p>
                     <p class="price">السعر: <span class="price-value">3500</span> <span class="currency-symbol">شيكل</span></p>
-                    <p><strong>عدد المنتجات المتوفرة: 20</strong></p>
+                    <label>عدد المنتجات:</label>
+                    <input type="number" class="quantity" min="1" value="1" onchange="updateTotal(this)">
+                    <p>الإجمالي: <span class="total-value">3500</span> <span class="currency-symbol">شيكل</span></p>
                     <button class="btn-primary">إضافة إلى السلة</button>
                 </div>
                 <!-- المنتج 2 -->
-                <div class="product" data-price-ils="2800" data-price-usd="760">
+                <div class="product" data-price-ils="2800" data-price-usd="760" data-price-usdt="760">
                     <img src="images/washing-machine.jpg" alt="غسالة">
                     <h2>غسالة</h2>
                     <p>غسالة بتقنيات حديثة لتوفير الطاقة.</p>
                     <p class="price">السعر: <span class="price-value">2800</span> <span class="currency-symbol">شيكل</span></p>
-                    <p><strong>عدد المنتجات المتوفرة: 15</strong></p>
+                    <label>عدد المنتجات:</label>
+                    <input type="number" class="quantity" min="1" value="1" onchange="updateTotal(this)">
+                    <p>الإجمالي: <span class="total-value">2800</span> <span class="currency-symbol">شيكل</span></p>
                     <button class="btn-primary">إضافة إلى السلة</button>
                 </div>
                 <!-- المنتج 3 -->
-                <div class="product" data-price-ils="1200" data-price-usd="320">
+                <div class="product" data-price-ils="1200" data-price-usd="320" data-price-usdt="320">
                     <img src="images/microwave.jpg" alt="ميكروويف">
                     <h2>ميكروويف</h2>
                     <p>ميكروويف متطور لإعداد الطعام بسهولة.</p>
                     <p class="price">السعر: <span class="price-value">1200</span> <span class="currency-symbol">شيكل</span></p>
-                    <p><strong>عدد المنتجات المتوفرة: 30</strong></p>
+                    <label>عدد المنتجات:</label>
+                    <input type="number" class="quantity" min="1" value="1" onchange="updateTotal(this)">
+                    <p>الإجمالي: <span class="total-value">1200</span> <span class="currency-symbol">شيكل</span></p>
                     <button class="btn-primary">إضافة إلى السلة</button>
                 </div>
             </div>
@@ -70,13 +79,16 @@
         <!-- قسم خيارات الدفع -->
         <section class="payment-options">
             <h2>خيارات الدفع</h2>
-            <p>نوفر لكم طرق دفع متعددة لتلبية احتياجاتكم:</p>
+            <p>طرق الدفع المتاحة:</p>
             <ul>
                 <li>الدفع نقداً عند الاستلام.</li>
                 <li>الدفع عبر بطاقات الائتمان (Visa, MasterCard).</li>
                 <li>الدفع عبر المحافظ الرقمية (Apple Pay, STC Pay).</li>
+                <li>الدفع عبر العملات الرقمية (USDT).</li>
             </ul>
-            <p>لأي استفسار حول طرق الدفع، يرجى <a href="contact.html">التواصل معنا</a>.</p>
+            <div class="crypto-logo">
+                <img src="images/usdt-logo.png" alt="شعار USDT" style="width: 50px; height: auto;">
+            </div>
         </section>
     </main>
 
@@ -98,18 +110,37 @@
 
             products.forEach(product => {
                 const priceValue = product.querySelector('.price-value');
+                const totalValue = product.querySelector('.total-value');
                 const currencySymbol = product.querySelector('.currency-symbol');
+                const quantity = product.querySelector('.quantity').value;
+
                 const priceILS = product.getAttribute('data-price-ils');
                 const priceUSD = product.getAttribute('data-price-usd');
+                const priceUSDT = product.getAttribute('data-price-usdt');
+
+                let price = 0;
 
                 if (currency === 'ils') {
-                    priceValue.textContent = priceILS;
+                    price = priceILS;
                     currencySymbol.textContent = 'شيكل';
-                } else {
-                    priceValue.textContent = priceUSD;
+                } else if (currency === 'usd') {
+                    price = priceUSD;
                     currencySymbol.textContent = 'دولار';
+                } else if (currency === 'usdt') {
+                    price = priceUSDT;
+                    currencySymbol.textContent = 'USDT';
                 }
+
+                priceValue.textContent = price;
+                totalValue.textContent = price * quantity;
             });
+        }
+
+        function updateTotal(input) {
+            const product = input.closest('.product');
+            const priceValue = product.querySelector('.price-value').textContent;
+            const totalValue = product.querySelector('.total-value');
+            totalValue.textContent = priceValue * input.value;
         }
     </script>
 </body>
