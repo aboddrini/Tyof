@@ -24,29 +24,93 @@
     <main>
         <section class="products">
             <h1>منتجاتنا</h1>
+            <p>اكتشف أحدث الأجهزة الكهربائية بأسعار تنافسية وجودة عالية.</p>
+
+            <!-- خيارات العملة -->
+            <div class="currency-selector">
+                <label for="currency">اختر العملة:</label>
+                <select id="currency" onchange="updatePrices()">
+                    <option value="ils">شيكل</option>
+                    <option value="usd">دولار</option>
+                </select>
+            </div>
+
+            <!-- قائمة المنتجات -->
             <div class="product-grid">
-                <div class="product">
+                <!-- المنتج 1 -->
+                <div class="product" data-price-ils="3500" data-price-usd="950">
                     <img src="images/fridge.jpg" alt="ثلاجة">
                     <h2>ثلاجة</h2>
                     <p>أفضل الثلاجات للحفاظ على طعامك طازجاً.</p>
+                    <p class="price">السعر: <span class="price-value">3500</span> <span class="currency-symbol">شيكل</span></p>
+                    <p><strong>عدد المنتجات المتوفرة: 20</strong></p>
+                    <button class="btn-primary">إضافة إلى السلة</button>
                 </div>
-                <div class="product">
+                <!-- المنتج 2 -->
+                <div class="product" data-price-ils="2800" data-price-usd="760">
                     <img src="images/washing-machine.jpg" alt="غسالة">
                     <h2>غسالة</h2>
                     <p>غسالة بتقنيات حديثة لتوفير الطاقة.</p>
+                    <p class="price">السعر: <span class="price-value">2800</span> <span class="currency-symbol">شيكل</span></p>
+                    <p><strong>عدد المنتجات المتوفرة: 15</strong></p>
+                    <button class="btn-primary">إضافة إلى السلة</button>
                 </div>
-                <div class="product">
+                <!-- المنتج 3 -->
+                <div class="product" data-price-ils="1200" data-price-usd="320">
                     <img src="images/microwave.jpg" alt="ميكروويف">
                     <h2>ميكروويف</h2>
                     <p>ميكروويف متطور لإعداد الطعام بسهولة.</p>
+                    <p class="price">السعر: <span class="price-value">1200</span> <span class="currency-symbol">شيكل</span></p>
+                    <p><strong>عدد المنتجات المتوفرة: 30</strong></p>
+                    <button class="btn-primary">إضافة إلى السلة</button>
                 </div>
             </div>
+        </section>
+
+        <!-- قسم خيارات الدفع -->
+        <section class="payment-options">
+            <h2>خيارات الدفع</h2>
+            <p>نوفر لكم طرق دفع متعددة لتلبية احتياجاتكم:</p>
+            <ul>
+                <li>الدفع نقداً عند الاستلام.</li>
+                <li>الدفع عبر بطاقات الائتمان (Visa, MasterCard).</li>
+                <li>الدفع عبر المحافظ الرقمية (Apple Pay, STC Pay).</li>
+            </ul>
+            <p>لأي استفسار حول طرق الدفع، يرجى <a href="contact.html">التواصل معنا</a>.</p>
         </section>
     </main>
 
     <!-- الفوتر -->
     <footer>
         <p>&copy; 2024 شركة الأجهزة الكهربائية. جميع الحقوق محفوظة. | <a href="contact.html">تواصل معنا</a></p>
+        <div class="social-links">
+            <a href="#" target="_blank">فيسبوك</a> | 
+            <a href="#" target="_blank">تويتر</a> | 
+            <a href="#" target="_blank">إنستجرام</a>
+        </div>
     </footer>
+
+    <!-- سكريبت -->
+    <script>
+        function updatePrices() {
+            const currency = document.getElementById('currency').value;
+            const products = document.querySelectorAll('.product');
+
+            products.forEach(product => {
+                const priceValue = product.querySelector('.price-value');
+                const currencySymbol = product.querySelector('.currency-symbol');
+                const priceILS = product.getAttribute('data-price-ils');
+                const priceUSD = product.getAttribute('data-price-usd');
+
+                if (currency === 'ils') {
+                    priceValue.textContent = priceILS;
+                    currencySymbol.textContent = 'شيكل';
+                } else {
+                    priceValue.textContent = priceUSD;
+                    currencySymbol.textContent = 'دولار';
+                }
+            });
+        }
+    </script>
 </body>
 </html>
