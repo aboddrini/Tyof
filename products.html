@@ -17,6 +17,7 @@
                     <li><a href="products.html" class="active">المنتجات</a></li>
                     <li><a href="about.html">عن الشركة</a></li>
                     <li><a href="contact.html">تواصل معنا</a></li>
+                    <li><a href="cart.html">السلة</a></li>
                 </ul>
             </nav>
         </div>
@@ -28,49 +29,29 @@
             <h1>منتجاتنا</h1>
             <p>اختر منتجاتك المفضلة واستمتع بخيارات الدفع المميزة.</p>
 
-            <!-- خيارات العملة -->
-            <div class="currency-selector">
-                <label for="currency">اختر العملة:</label>
-                <select id="currency" onchange="updatePrices()">
-                    <option value="ils">شيكل</option>
-                    <option value="usd">دولار</option>
-                    <option value="usdt">USDT</option>
-                </select>
-            </div>
-
-            <!-- قائمة المنتجات -->
             <div class="product-grid">
                 <!-- المنتج 1 -->
-                <div class="product" data-price-ils="3500" data-price-usd="950" data-price-usdt="950">
+                <div class="product" data-id="1" data-name="ثلاجة" data-price-ils="3500" data-price-usd="950" data-price-usdt="950">
                     <img src="images/fridge.jpg" alt="ثلاجة">
                     <h2>ثلاجة</h2>
                     <p>أفضل الثلاجات للحفاظ على طعامك طازجاً.</p>
                     <p class="price">السعر: <span class="price-value">3500</span> <span class="currency-symbol">شيكل</span></p>
-                    <label>عدد المنتجات:</label>
-                    <input type="number" class="quantity" min="1" value="1" readonly>
-                    <p>الإجمالي: <span class="total-value">3500</span> <span class="currency-symbol">شيكل</span></p>
                     <button class="btn-primary" onclick="addToCart(this)">إضافة إلى السلة</button>
                 </div>
                 <!-- المنتج 2 -->
-                <div class="product" data-price-ils="2800" data-price-usd="760" data-price-usdt="760">
+                <div class="product" data-id="2" data-name="غسالة" data-price-ils="2800" data-price-usd="760" data-price-usdt="760">
                     <img src="images/washing-machine.jpg" alt="غسالة">
                     <h2>غسالة</h2>
                     <p>غسالة بتقنيات حديثة لتوفير الطاقة.</p>
                     <p class="price">السعر: <span class="price-value">2800</span> <span class="currency-symbol">شيكل</span></p>
-                    <label>عدد المنتجات:</label>
-                    <input type="number" class="quantity" min="1" value="1" readonly>
-                    <p>الإجمالي: <span class="total-value">2800</span> <span class="currency-symbol">شيكل</span></p>
                     <button class="btn-primary" onclick="addToCart(this)">إضافة إلى السلة</button>
                 </div>
                 <!-- المنتج 3 -->
-                <div class="product" data-price-ils="1200" data-price-usd="320" data-price-usdt="320">
+                <div class="product" data-id="3" data-name="ميكروويف" data-price-ils="1200" data-price-usd="320" data-price-usdt="320">
                     <img src="images/microwave.jpg" alt="ميكروويف">
                     <h2>ميكروويف</h2>
                     <p>ميكروويف متطور لإعداد الطعام بسهولة.</p>
                     <p class="price">السعر: <span class="price-value">1200</span> <span class="currency-symbol">شيكل</span></p>
-                    <label>عدد المنتجات:</label>
-                    <input type="number" class="quantity" min="1" value="1" readonly>
-                    <p>الإجمالي: <span class="total-value">1200</span> <span class="currency-symbol">شيكل</span></p>
                     <button class="btn-primary" onclick="addToCart(this)">إضافة إلى السلة</button>
                 </div>
             </div>
@@ -87,51 +68,35 @@
         </div>
     </footer>
 
-    <!-- سكريبت -->
     <script>
-        function updatePrices() {
-            const currency = document.getElementById('currency').value;
-            const products = document.querySelectorAll('.product');
-
-            products.forEach(product => {
-                const priceValue = product.querySelector('.price-value');
-                const totalValue = product.querySelector('.total-value');
-                const currencySymbol = product.querySelector('.currency-symbol');
-                const quantity = product.querySelector('.quantity').value;
-
-                const priceILS = product.getAttribute('data-price-ils');
-                const priceUSD = product.getAttribute('data-price-usd');
-                const priceUSDT = product.getAttribute('data-price-usdt');
-
-                let price = 0;
-
-                if (currency === 'ils') {
-                    price = priceILS;
-                    currencySymbol.textContent = 'شيكل';
-                } else if (currency === 'usd') {
-                    price = priceUSD;
-                    currencySymbol.textContent = 'دولار';
-                } else if (currency === 'usdt') {
-                    price = priceUSDT;
-                    currencySymbol.textContent = 'USDT';
-                }
-
-                priceValue.textContent = price;
-                totalValue.textContent = price * quantity;
-            });
-        }
-
+        // إضافة المنتج إلى السلة
         function addToCart(button) {
             const product = button.closest('.product');
-            const quantityInput = product.querySelector('.quantity');
-            const totalValue = product.querySelector('.total-value');
-            const priceValue = product.querySelector('.price-value').textContent;
+            const id = product.getAttribute('data-id');
+            const name = product.getAttribute('data-name');
+            const price = product.querySelector('.price-value').textContent;
+            const currency = document.querySelector('.currency-symbol').textContent;
 
-            // زيادة العدد
-            quantityInput.value = parseInt(quantityInput.value) + 1;
+            // قراءة السلة من LocalStorage
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
-            // تحديث الإجمالي
-            totalValue.textContent = priceValue * quantityInput.value;
+            // التحقق إذا كان المنتج موجودًا
+            const existingProduct = cart.find(item => item.id === id);
+            if (existingProduct) {
+                existingProduct.quantity += 1;
+            } else {
+                cart.push({
+                    id,
+                    name,
+                    price,
+                    currency,
+                    quantity: 1,
+                });
+            }
+
+            // تخزين السلة المحدثة
+            localStorage.setItem('cart', JSON.stringify(cart));
+            alert(`${name} تمت إضافته إلى السلة.`);
         }
     </script>
 </body>

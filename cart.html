@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>السلة - شركة الأجهزة الكهربائية</title>
+    <link rel="stylesheet" href="Styles.css">
+</head>
+<body>
+    <!-- الهيدر -->
+    <header>
+        <div class="header-container">
+            <img src="images/logo.png" alt="شعار الشركة" class="logo">
+            <nav>
+                <ul>
+                    <li><a href="index.html">الرئيسية</a></li>
+                    <li><a href="products.html">المنتجات</a></li>
+                    <li><a href="about.html">عن الشركة</a></li>
+                    <li><a href="contact.html">تواصل معنا</a></li>
+                    <li><a href="cart.html" class="active">السلة</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- قسم السلة -->
+    <main>
+        <section class="cart">
+            <h1>سلة التسوق</h1>
+            <div id="cart-items">
+                <!-- سيتم تعبئة السلة ديناميكيًا -->
+            </div>
+            <div class="cart-summary">
+                <p>الإجمالي: <span id="total-price">0</span> <span id="currency-symbol">شيكل</span></p>
+                <button class="btn-primary" onclick="checkout()">إتمام الشراء</button>
+            </div>
+        </section>
+    </main>
+
+    <!-- الفوتر -->
+    <footer>
+        <p>&copy; 2024 شركة الأجهزة الكهربائية. جميع الحقوق محفوظة. | <a href="contact.html">تواصل معنا</a></p>
+    </footer>
+
+    <script>
+        function loadCart() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const cartItems = document.getElementById('cart-items');
+            const totalPrice = document.getElementById('total-price');
+            const currencySymbol = document.getElementById('currency-symbol');
+
+            let total = 0;
+            cartItems.innerHTML = '';
+
+            cart.forEach(item => {
+                const itemElement = document.createElement('div');
+                itemElement.classList.add('cart-item');
+                itemElement.innerHTML = `
+                    <p>${item.name}</p>
+                    <p>السعر: ${item.price} ${item.currency}</p>
+                    <p>الكمية: ${item.quantity}</p>
+                    <button onclick="removeFromCart('${item.id}')">حذف</button>
+                `;
+                total += item.price * item.quantity;
+                cartItems.appendChild(itemElement);
+            });
+
+            totalPrice.textContent = total.toFixed(2);
+            currencySymbol.textContent = cart[0]?.currency || 'شيكل';
+        }
+
+        function removeFromCart(id) {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            cart = cart.filter(item => item.id !== id);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            loadCart();
+        }
+
+        function checkout() {
+            alert('تم إتمام عملية الشراء بنجاح!');
+            localStorage.removeItem('cart');
+            loadCart();
+        }
+
+        window.onload = loadCart;
+    </script>
+</body>
+</html>
